@@ -5,5 +5,10 @@ from firebase_admin import credentials, db
 def init_firebase():
     cred = credentials.Certificate("firebase_credentials.json")
     firebase_admin.initialize_app( cred, {
-        "databaseURL": "https://<TU_PROJECTO>.firebaseio.com/"
+        "databaseURL": "https://readfilefastapi.firebaseio.com/"
     })
+
+# insert data in DB
+def insert_data_to_firebase( path: str, data: dict ):
+    ref = db.reference( path )
+    ref.push( data ) # agregar el dict a la ruta
