@@ -1,0 +1,54 @@
+# Entornos virtuales
+venv/
+env/
+.venv/
+.python-version
+
+# Archivos de configuración sensibles
+.env
+*.env
+
+# Archivos Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de log
+*.log
+
+# Configuración del editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de bases de datos locales
+*.sqlite3
+*.db
+
+# Migrations (opcional, si usas Alembic y generas localmente)
+migrations/
+
+# Pytest cache
+.pytest_cache/
+
+# MyPy
+.mypy_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+coverage.xml
+
+# Build / dist
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Uvicorn reload
+reload.db
