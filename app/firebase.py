@@ -3,9 +3,9 @@ from firebase_admin import credentials, db
 
 # inicializar conexion con firebase
 def init_firebase():
-    cred = credentials.Certificate("firebase_credentials.json")
+    cred = credentials.Certificate("./firebase_credentials.json")
     firebase_admin.initialize_app( cred, {
-        "databaseURL": "https://readfilefastapi.firebaseio.com/"
+        "databaseURL": "https://readfilefastapi-default-rtdb.firebaseio.com/"
     })
 
 # insert data in DB
