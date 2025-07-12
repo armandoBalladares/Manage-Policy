@@ -1,37 +1,20 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
-import pandas as pd, io, uuid, time
-import firebase_admin
-from firebase_admin import credentials, db
-
-"""
-# init firebase
-cred = credentials.Certificate("serviceAccountKry.jdon")
-firebase_admin.initialize_app(cred, { "databaseURL": "https://<TU-PROYECTO>.firebaseio.com"} )
-root_ref = db.reference("/excel_uploads")
-"""
+from fastapi import FastAPI, UploadFile, File
+from app.excel_processor import process_excel
+from app.firebase import init_firebase, insert_data_to_firebase
 
 app = FastAPI()
 
-@app.post("/upload_excel")
+# Inicializa Firebase al arrancar el servidor
+init_firebase()
+
+@app.post("/upload-excel/")
 async def upload_excel( file: UploadFile = File(...) ):
+    
+    contents = await file.read()
+    # procesar arhivo excel
+    data = process_excel( BytesIO(contents) )
+    # insertar cada fila en Firebase
+    for record in data:
+        insert_data_to_firebase("/excel_data", record)
 
-    """
-    if not file.filename.lower().endswith((".xls","xlsx")):
-        raise HTTPException( 400, "Archivos permitidos .xls .xlsx")
-    content = await file.read()
-
-    try:
-        df = pd.read_excel( io.BytesIO( content ))
-    except Exception as e:
-        raise HTTPException( 500, f"Error al intentar leer el fichero de excel esperado: {e}")
-
-    data = df.fillna("").to_dict(  orient="records")
-    key = str( uuid.uuid4() )
-    timestamp = int( time.time()*1000 )
-    entry = { f"row{idx+1}": row for idx, row in enumerate(data) }
-    entry["uploaded_at"] = timestamp
-    root_ref.child(key).set(entry)
-    """ 
-
-    return {"status": 200 ,"message": "Operacion exitosa...!", "key": key }
-
+    return {"status": 200, "message": "Operacion Exitosa.!", "rows_inserted": len(data) }
