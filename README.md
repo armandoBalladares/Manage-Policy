@@ -16,3 +16,6 @@ uvicorn app.main:app --reload
  
 curl -X POST "http://127.0.0.1:8000/upload-excel/" \
   -F "file=@/ruta/a/tu/archivo.xlsx"
+
+curl -X POST "http://127.0.0.1:8000/upload-excel/" \
+  -F "file=@/C:/Users/juan1/Documents/development/data.xlsx"
