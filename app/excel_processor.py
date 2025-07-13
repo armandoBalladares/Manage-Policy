@@ -1,12 +1,16 @@
 import pandas as pd
 from typing import List, Dict
 from io import BytesIO
+import re
 
-# Leer fichero excel y convertirlo en una lista de diccionarios
-def process_excel( file: BytesIO ) -> List[Dict]:
-    df = pd.read_excel( file )
+# ---------- LIMPIEZA DE COLUMNAS ----------
+def clean_column_name(name: str) -> str:
+    return re.sub(r'\W+', '_', name.strip().lower())
 
-    # Reemplazar NaN por None (compatible con JSON/Firebase)
-    df =  df.where( pd.notnull(df), None )
+# ---------- PROCESAMIENTO DE EXCEL ----------
+def process_excel(file: BytesIO) -> List[Dict[str, any]]:
+    df = pd.read_excel(file)
+    df.columns = [clean_column_name(col) for col in df.columns]
+    df = df.where(pd.notnull(df), None)
+    return df.to_dict(orient="records")
     
-    return df.to_dict( orient="records" )
