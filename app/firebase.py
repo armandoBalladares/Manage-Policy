@@ -11,4 +11,5 @@ def init_firebase():
 # insert data in DB
 def insert_data_to_firebase( path: str, data: dict ):
     ref = db.reference( path )
-    ref.push( data ) # agregar el dict a la ruta
+    for row in data:
+        ref.push(row)
