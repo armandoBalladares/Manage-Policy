@@ -3,7 +3,7 @@ from app.excel_processor import process_excel
 from app.firebase import init_firebase, insert_data_to_firebase
 from io import BytesIO
 from sqlalchemy.ext.asyncio import AsyncSession
-from .database import SessionLocal, engine, Base
+from .database import  engine, Base, async_session
 from .crud import get_users, create_user
 
 app = FastAPI()
@@ -18,8 +18,12 @@ async def startup():
         await conn.run_sync(Base.metadata.create_all)
 
 # Dependency for get DB
-async def get_db():
-    async with SessionLocal() as session:
+#async def get_db():
+#    async with SessionLocal() as session:
+#        yield session
+
+async def get_db( ):
+    async with async_session() as session:
         yield session
 
 @app.post("/upload-excel/")
