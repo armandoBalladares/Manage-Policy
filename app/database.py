@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.orm import sessionmaker, declarative_base
 import os
 from dotenv import load_dotenv
+import ssl
 
 # DATABASE_URL = "postgresql+asyncpg://username:password@ep-xxxxx.neon.tech/dbname"
 
